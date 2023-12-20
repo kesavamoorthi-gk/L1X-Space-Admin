@@ -14,7 +14,7 @@ const reducer = combineReducers({
 	settings,
 	navbar,
 	message,
-	dialog
+	dialog,
 });
 
 export default reducer;

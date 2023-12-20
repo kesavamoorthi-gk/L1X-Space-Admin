@@ -2,12 +2,12 @@
 /* eslint-disable prettier/prettier */
 import { lazy } from "react";
 
-const Category = lazy(() => import("./Category"));
+const Category = lazy(() => import("./Categoryy"));
 
 /**
  * The Example page config.
  */
-const CategoryConfig = {
+const CategoryyConfig = {
   settings: {
     layout: {},
   },
@@ -19,4 +19,4 @@ const CategoryConfig = {
   ],
 };
 
-export default CategoryConfig;
+export default CategoryyConfig;

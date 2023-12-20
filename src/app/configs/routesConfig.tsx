@@ -10,14 +10,17 @@ import SignUpConfig from "../main/sign-up/SignUpConfig";
 import SignOutConfig from "../main/sign-out/SignOutConfig";
 import Error404Page from "../main/404/Error404Page";
 import ExampleConfig from "../main/example/ExampleConfig";
-import CategoryConfig from "../main/category/CategoryConfig";
+import CategoryAppConfig from "../main/category/CategoryAppConfig";
+import Categories from "../main/category/categories/Categories";
+import ECommerceAppConfig from "../main/apps/e-commerce/ECommerceAppConfig";
 
 const routeConfigs: FuseRouteConfigsType = [
   ExampleConfig,
   SignOutConfig,
   SignInConfig,
   SignUpConfig,
-  CategoryConfig,
+  CategoryAppConfig,
+  ECommerceAppConfig,
 ];
 
 /**
@@ -31,11 +34,6 @@ const routes: FuseRoutesType = [
   {
     path: "/",
     element: <Navigate to="/example" />,
-    auth: settingsConfig.defaultAuth,
-  },
-  {
-    path: "category",
-    element: <Navigate to="/category" />,
     auth: settingsConfig.defaultAuth,
   },
   {

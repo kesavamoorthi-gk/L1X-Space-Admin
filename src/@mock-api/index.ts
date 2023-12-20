@@ -5,6 +5,7 @@ import mock from './mock';
 // Import API modules
 import './api/auth-api';
 import './api/notifications-api';
+import './api/ecommerce-api';
 
 // Pass all requests through the mock adapter
 mock.onAny().passThrough();

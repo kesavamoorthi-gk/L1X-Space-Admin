@@ -26,8 +26,9 @@ const navigationConfig: FuseNavigationType = [
 		translate: 'CATEGORIES',
 		type: 'item',
 		icon: 'heroicons-outline:tag',
-		url: 'category'
-	}
+		url: 'categories'
+	},
+
 ];
 
 export default navigationConfig;
