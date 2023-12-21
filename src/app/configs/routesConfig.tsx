@@ -11,8 +11,6 @@ import SignOutConfig from "../main/sign-out/SignOutConfig";
 import Error404Page from "../main/404/Error404Page";
 import ExampleConfig from "../main/example/ExampleConfig";
 import CategoryAppConfig from "../main/category/CategoryAppConfig";
-import Categories from "../main/category/categories/Categories";
-import ECommerceAppConfig from "../main/apps/e-commerce/ECommerceAppConfig";
 
 const routeConfigs: FuseRouteConfigsType = [
   ExampleConfig,
@@ -20,7 +18,6 @@ const routeConfigs: FuseRouteConfigsType = [
   SignInConfig,
   SignUpConfig,
   CategoryAppConfig,
-  ECommerceAppConfig,
 ];
 
 /**

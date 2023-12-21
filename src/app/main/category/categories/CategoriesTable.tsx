@@ -98,7 +98,7 @@ function CategoriesTable(props: CategoriesTableProps) {
   }
 
   function handleClick(item: CategoryType) {
-    navigate(`/apps/e-commerce/categories/${item.id}/${item.handle}`);
+    navigate(`/categories/${item.id}/${item.handle}`);
   }
 
   function handleCheck(event: ChangeEvent<HTMLInputElement>, id: string) {
