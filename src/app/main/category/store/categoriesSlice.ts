@@ -11,8 +11,9 @@ export type AppRootStateType = RootStateType<categoriesSliceType>;
  * Get categories from server
  */
 export const getCategories = createAppAsyncThunk<CategoriesType>('categoriesApp/categories/getCategories', async () => {
-	const response = await axios.get('/api/ecommerce/categories');
-	const data = (await response.data) as CategoriesType;
+	const response = await axios.get('https://l1profileapi.seaswap.co/api/v1/admin/list-category');
+	console.log(response);
+	const data = (await response.data.data) as CategoriesType;
 
 	return data;
 });
@@ -20,21 +21,25 @@ export const getCategories = createAppAsyncThunk<CategoriesType>('categoriesApp/
 /**
  * Remove categories
  */
-export const removeCategories = createAppAsyncThunk<string[], string[]>('categoriesApp/categories', async (categoryIds) => {
-	await axios.delete('/api/ecommerce/categories', { data: categoryIds });
+export const removeCategories = createAppAsyncThunk<string[], string[]>(
+	'categoriesApp/categories',
+	async (categoryIds) => {
+		await axios.delete('/api/ecommerce/categories', { data: categoryIds });
 
-	return categoryIds;
+		return categoryIds;
+	}
+);
+
+const productsAdapter = createEntityAdapter<CategoryType>({
+	selectId: (category) => category._id
 });
-
-const productsAdapter = createEntityAdapter<CategoryType>({});
 
 export const { selectAll: selectCategories, selectById: selectCategoryById } = productsAdapter.getSelectors(
 	(state: AppRootStateType) => state?.categoriesApp?.categories
 );
 
 const initialState = productsAdapter.getInitialState({
-	searchText: '',
-
+	searchText: ''
 });
 
 /**
@@ -46,7 +51,6 @@ export const categoriesSlice = createSlice({
 	reducers: {
 		setCategoriesSearchText: (state, action) => {
 			state.searchText = action.payload as string;
-
 		}
 	},
 	extraReducers: (builder) => {
@@ -54,8 +58,6 @@ export const categoriesSlice = createSlice({
 			.addCase(getCategories.fulfilled, (state, action) => {
 				productsAdapter.setAll(state, action.payload);
 				state.searchText = '';
-
-
 			})
 			.addCase(removeCategories.fulfilled, (state, action) => {
 				productsAdapter.removeMany(state, action.payload);
