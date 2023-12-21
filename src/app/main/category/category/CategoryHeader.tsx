@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import _ from '@lodash';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { removeCategory, saveCategory } from '../store/categorySlice';
-import { CategoryType } from '../types/CategoryType';
+import { CategoryType, NewCategoryType } from '../types/CategoryType';
 
 /**
  * The category header.
@@ -25,7 +25,7 @@ function CategoryHeader() {
 	const { name, images, featuredImageId } = watch() as CategoryType;
 
 	function handleSaveCategory() {
-		dispatch(saveCategory(getValues() as CategoryType));
+		dispatch(saveCategory(getValues() as NewCategoryType));
 	}
 
 	function handleRemoveCategory() {

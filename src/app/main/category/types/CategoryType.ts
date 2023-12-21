@@ -30,5 +30,14 @@ export type CategoryType = {
 	image?: string;
 	total?: string;
 };
+/**
+ * Category Type
+ */
+export type NewCategoryType = {
+	name: string;
+	category_image?: string;
+	icon_color?: string;
+	box_color?: string;
+};
 
 export type CategoriesType = CategoryType[];

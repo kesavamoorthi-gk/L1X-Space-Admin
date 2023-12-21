@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import createAppAsyncThunk from 'app/store/createAppAsyncThunk';
 import { AsyncStateType, RootStateType } from 'app/store/types';
-import { CategoryType } from '../types/CategoryType';
+import { CategoryType, NewCategoryType } from '../types/CategoryType';
 import CategoryModel from '../category/models/CategoryModel';
 
 export type AppRootStateType = RootStateType<categorySliceType>;
@@ -40,14 +40,14 @@ export const removeCategory = createAppAsyncThunk<string>(
 /**
  * Save product
  */
-export const saveCategory = createAppAsyncThunk<CategoryType, CategoryType>(
+export const saveCategory = createAppAsyncThunk<NewCategoryType, NewCategoryType>(
 	'categoriesApp/category/saveCategory',
 	async (productData, { getState }) => {
 		const AppState = getState() as AppRootStateType;
 
 		const { _id } = AppState.categoriesApp.category.data as CategoryType;
 
-		const response = await axios.put(`/api/ecommerce/categories/${_id}`, productData);
+		const response = await axios.post(`https://l1profileapi.seaswap.co/api/v1/admin/create-category`, productData);
 
 		const data = (await response.data) as CategoryType;
 

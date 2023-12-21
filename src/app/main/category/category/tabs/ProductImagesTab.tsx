@@ -1,11 +1,13 @@
 import { orange } from '@mui/material/colors';
 import { lighten, styled } from '@mui/material/styles';
-import clsx from 'clsx';
 import FuseUtils from '@fuse/utils';
 import { Controller, useFormContext } from 'react-hook-form';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Box from '@mui/material/Box';
-import { CategoryType } from '../../types/CategoryType';
+import clsx from 'clsx';
+import axios from 'axios';
+import { useState } from 'react';
+import { NewCategoryType } from '../../types/CategoryType';
 
 const Root = styled('div')(({ theme }) => ({
 	'& .productImageFeaturedStar': {
@@ -51,7 +53,29 @@ function ProductImagesTab() {
 	const methods = useFormContext();
 	const { control, watch } = methods;
 
-	const images = watch('images') as CategoryType['images'];
+	const images = watch('images') as NewCategoryType['category_image'];
+	const [file, setFile] = useState();
+
+	function handleChange(event) {
+		setFile(event.target.files[0]);
+		handleSubmit(event);
+	}
+
+	function handleSubmit(event) {
+		event.preventDefault();
+		const url = 'http://localhost:3000/uploadFile';
+		const formData = new FormData();
+		formData.append('file', file);
+		formData.append('fileName', file.name);
+		const config = {
+			headers: {
+				'content-type': 'multipart/form-data'
+			}
+		};
+		axios.post(url, formData, config).then((response) => {
+			console.log(response.data);
+		});
+	}
 
 	return (
 		<Root>
@@ -59,7 +83,7 @@ function ProductImagesTab() {
 				<Controller
 					name="images"
 					control={control}
-					render={({ field: { onChange, value } }) => (
+					render={({ field: { onChange } }) => (
 						<Box
 							sx={{
 								backgroundColor: (theme) =>
@@ -77,7 +101,7 @@ function ProductImagesTab() {
 								id="button-file"
 								type="file"
 								onChange={async (e) => {
-									function readFileAsync() {
+									async function readFileAsync() {
 										return new Promise((resolve, reject) => {
 											const file = e?.target?.files?.[0];
 											if (!file) {
@@ -101,7 +125,7 @@ function ProductImagesTab() {
 
 									const newImage = await readFileAsync();
 
-									onChange([newImage, ...(value as CategoryType['images'])]);
+									onChange(newImage);
 								}}
 							/>
 							<FuseSvgIcon
@@ -113,39 +137,37 @@ function ProductImagesTab() {
 						</Box>
 					)}
 				/>
-				<Controller
-					name="featuredImageId"
-					control={control}
-					defaultValue=""
-					render={({ field: { onChange, value } }) => {
-						return (
-							<>
-								{images.map((media) => (
-									<div
-										onClick={() => onChange(media.id)}
-										onKeyDown={() => onChange(media.id)}
-										role="button"
-										tabIndex={0}
-										className={clsx(
-											'productImageItem flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow hover:shadow-lg',
-											media.id === value && 'featured'
-										)}
-										key={media.id}
-									>
-										<FuseSvgIcon className="productImageFeaturedStar">
-											heroicons-solid:star
-										</FuseSvgIcon>
-										<img
-											className="max-w-none w-auto h-full"
-											src={media.url}
-											alt="product"
-										/>
-									</div>
-								))}
-							</>
-						);
-					}}
-				/>
+				{images && (
+					<Controller
+						name="featuredImageId"
+						control={control}
+						defaultValue=""
+						render={({ field: { onChange, value } }) => {
+							return (
+								<div
+									onClick={() => onChange(images)}
+									onKeyDown={() => onChange(images)}
+									role="button"
+									tabIndex={0}
+									className={clsx(
+										'productImageItem flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow hover:shadow-lg',
+										images === value && 'featured'
+									)}
+									key={images?.id}
+								>
+									{/* <FuseSvgIcon className="productImageFeaturedStar">
+					heroicons-solid:star
+				  </FuseSvgIcon> */}
+									<img
+										className="max-w-none w-auto h-full"
+										src={images?.url}
+										alt="product"
+									/>
+								</div>
+							);
+						}}
+					/>
+				)}
 			</div>
 		</Root>
 	);
