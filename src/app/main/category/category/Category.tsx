@@ -15,11 +15,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import useThemeMediaQuery from '@fuse/hooks/useThemeMediaQuery';
 import * as React from 'react';
-import { SketchPicker } from 'react-color';
 import { getCategory, newCategory, resetCategory, selectCategory } from '../store/categorySlice';
 import CategoryHeader from './CategoryHeader';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import ProductImagesTab from './tabs/ProductImagesTab';
+import ColorPalleteTab from './tabs/ColorPallete';
 
 /**
  * Form Validation Schema
@@ -49,8 +49,6 @@ function Category() {
 	});
 	const { reset, watch } = methods;
 	const form = watch();
-	const [selectedColor, setSelectedColor] = useState('#000000'); // Set a default color if needed
-	const [selectedBoxColor, setSelectedBoxColor] = useState('#000000'); // Set a default color if needed
 
 	useDeepCompareEffect(() => {
 		function updateProductState() {
@@ -176,39 +174,7 @@ function Category() {
 								<h4 className="mb-5">Category Image</h4>
 
 								<ProductImagesTab />
-								<div>
-									<label className="mb-7 text-black text-lg">
-										<span>Icon Color</span>
-										<input
-											className="mt-1"
-											placeholder=""
-											name="icon_color"
-											value={selectedColor}
-											readOnly
-										/>
-										<SketchPicker
-											color={selectedColor}
-											onChange={(color) => setSelectedColor(color.hex)}
-										/>
-									</label>
-								</div>
-
-								<div>
-									<label className="mb-7 text-black text-lg">
-										<span>Box Color</span>
-										<input
-											className="mt-1"
-											placeholder=""
-											name="icon_color"
-											value={selectedBoxColor}
-											readOnly
-										/>
-										<SketchPicker
-											color={selectedBoxColor}
-											onChange={(color) => setSelectedBoxColor(color.hex)}
-										/>
-									</label>
-								</div>
+								<ColorPalleteTab />
 							</div>
 
 							{/* <div className={tabValue !== 1 ? 'hidden' : ''}>

@@ -43,6 +43,7 @@ export const removeCategory = createAppAsyncThunk<string>(
 export const saveCategory = createAppAsyncThunk<NewCategoryType, NewCategoryType>(
 	'categoriesApp/category/saveCategory',
 	async (productData, { getState }) => {
+		debugger;
 		const AppState = getState() as AppRootStateType;
 
 		const { _id } = AppState.categoriesApp.category.data as CategoryType;

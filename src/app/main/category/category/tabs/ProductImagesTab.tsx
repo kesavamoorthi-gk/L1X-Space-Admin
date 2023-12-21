@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { orange } from '@mui/material/colors';
 import { lighten, styled } from '@mui/material/styles';
-import FuseUtils from '@fuse/utils';
 import { Controller, useFormContext } from 'react-hook-form';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import Box from '@mui/material/Box';
@@ -54,26 +56,32 @@ function ProductImagesTab() {
 	const { control, watch } = methods;
 
 	const images = watch('images') as NewCategoryType['category_image'];
-	const [file, setFile] = useState();
+	const [file, setFile] = useState({});
 
 	function handleChange(event) {
-		setFile(event.target.files[0]);
-		handleSubmit(event);
+		const newFile = event.target.files[0];
+		setFile(newFile);
+		handleSubmit(newFile);
 	}
 
-	function handleSubmit(event) {
-		event.preventDefault();
-		const url = 'http://localhost:3000/uploadFile';
+	function handleSubmit(file) {
+		// event.preventDefault();
+		const url = 'https://l1profileapi.seaswap.co/api/v1/file-upload/upload';
 		const formData = new FormData();
 		formData.append('file', file);
-		formData.append('fileName', file.name);
+		formData.append('service', 'admin-category');
 		const config = {
 			headers: {
 				'content-type': 'multipart/form-data'
 			}
 		};
 		axios.post(url, formData, config).then((response) => {
-			console.log(response.data);
+			// Assuming "response.data" is the API response
+			const uploadedImage = response.data.data.url;
+
+			// Set the uploaded image URL to the 'images' state
+			methods.setValue('images', uploadedImage);
+			methods.setValue('category_image', uploadedImage);
 		});
 	}
 
@@ -100,33 +108,35 @@ function ProductImagesTab() {
 								className="hidden"
 								id="button-file"
 								type="file"
-								onChange={async (e) => {
-									async function readFileAsync() {
-										return new Promise((resolve, reject) => {
-											const file = e?.target?.files?.[0];
-											if (!file) {
-												return;
-											}
-											const reader = new FileReader();
+								onChange={handleChange}
+								// onChange={async (e) => {
+								// 	async function readFileAsync() {
+								// 		return new Promise((resolve, reject) => {
+								// 			const file = e?.target?.files?.[0];
+								// 			if (!file) {
+								// 				return;
+								// 			}
+								// 			const reader = new FileReader();
 
-											reader.onload = () => {
-												resolve({
-													id: FuseUtils.generateGUID(),
-													url: `data:${file.type};base64,${btoa(reader.result as string)}`,
-													type: 'image'
-												});
-											};
+								// 			reader.onload = () => {
+								// 				resolve({
+								// 					id: FuseUtils.generateGUID(),
+								// 					url: `data:${file.type};base64,${btoa(reader.result as string)}`,
+								// 					type: 'image'
+								// 				});
+								// 			};
 
-											reader.onerror = reject;
+								// 			reader.onerror = reject;
 
-											reader.readAsBinaryString(file);
-										});
-									}
+								// 			reader.readAsBinaryString(file);
+								// 			handleChange(file);
+								// 		});
+								// 	}
 
-									const newImage = await readFileAsync();
+								// 	const newImage = await readFileAsync();
 
-									onChange(newImage);
-								}}
+								// 	onChange(newImage);
+								// }}
 							/>
 							<FuseSvgIcon
 								size={32}
@@ -160,7 +170,7 @@ function ProductImagesTab() {
 				  </FuseSvgIcon> */}
 									<img
 										className="max-w-none w-auto h-full"
-										src={images?.url}
+										src={images}
 										alt="product"
 									/>
 								</div>
