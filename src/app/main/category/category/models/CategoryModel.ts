@@ -7,6 +7,7 @@ import { NewCategoryType } from '../../types/CategoryType';
  */
 const CategoryModel = (data: PartialDeep<NewCategoryType>) =>
 	_.defaults(data || {}, {
+	
 		name: '',
 		category_image: '',
 		icon_color: '',

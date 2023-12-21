@@ -16,7 +16,7 @@ const navigationConfig: FuseNavigationType = [
 	{
 		id: 'categories-component',
 		title: 'Categories',
-		translate: 'CATEGORIES',
+		translate: 'Category-Management',
 		type: 'item',
 		icon: 'heroicons-outline:tag',
 		url: 'categories'

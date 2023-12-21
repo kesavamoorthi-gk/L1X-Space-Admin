@@ -4,6 +4,7 @@ import createAppAsyncThunk from 'app/store/createAppAsyncThunk';
 import { AsyncStateType, RootStateType } from 'app/store/types';
 import { CategoryType, NewCategoryType } from '../types/CategoryType';
 import CategoryModel from '../category/models/CategoryModel';
+import history from '@history';
 
 export type AppRootStateType = RootStateType<categorySliceType>;
 
@@ -42,17 +43,35 @@ export const removeCategory = createAppAsyncThunk<string>(
  */
 export const saveCategory = createAppAsyncThunk<NewCategoryType, NewCategoryType>(
 	'categoriesApp/category/saveCategory',
-	async (productData, { getState }) => {
-		debugger;
+	async (productData,  { getState, dispatch }) => {
 		const AppState = getState() as AppRootStateType;
-
+	
 		const { _id } = AppState.categoriesApp.category.data as CategoryType;
+	
+		try {
+			const response = await axios.post(
+				`https://l1profileapi.seaswap.co/api/v1/admin/create-category`,
+				productData
+			);
+		
+			const data = (await response.data) as CategoryType;
+		    console.log(response.data.status_code,"1111111111111111")
+			console.log(response.data,"9991111")
+			if (response.data.status_code === 200) {
+				console.log("1555111")
+				dispatch(saveCategory.fulfilled(data, 'fulfilled'));
+		
+				// Redirect to another page using React Router
+				history.push('/categories');
+			}
+		
 
-		const response = await axios.post(`https://l1profileapi.seaswap.co/api/v1/admin/create-category`, productData);
-
-		const data = (await response.data) as CategoryType;
-
-		return data;
+			return data;
+		} catch (error) {
+			// Handle errors here
+			console.error('Error:', error);
+			throw error;
+		}
 	}
 );
 

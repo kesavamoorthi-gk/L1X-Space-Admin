@@ -163,7 +163,7 @@ function ProductImagesTab() {
 										'productImageItem flex items-center justify-center relative w-128 h-128 rounded-16 mx-12 mb-24 overflow-hidden cursor-pointer outline-none shadow hover:shadow-lg',
 										images === value && 'featured'
 									)}
-									key={images?.id}
+									key={images}
 								>
 									{/* <FuseSvgIcon className="productImageFeaturedStar">
 					heroicons-solid:star

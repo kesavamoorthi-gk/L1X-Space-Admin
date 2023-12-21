@@ -233,7 +233,8 @@ function CategoriesTable(props: CategoriesTableProps) {
 										component="th"
 										scope="row"
 									>
-									   <img src={n.category_image} alt="Category" />
+									   <img src={n.category_image} alt="Category" style={{ width: '60px', height: '60px', objectFit: 'cover' }}
+											/>
 									</TableCell>
 									<TableCell
 										className="p-4 md:p-16"
