@@ -1,10 +1,11 @@
+/* eslint-disable quotes */
+/* eslint-disable prettier/prettier */
 import FusePageCarded from "@fuse/core/FusePageCarded";
 import useThemeMediaQuery from "@fuse/hooks/useThemeMediaQuery";
-import CategoriesHeader from "./CategoriesHeader";
-import CategoriesTable from "./CategoriesTable";
-import DemoContent from "@fuse/core/DemoContent";
 import { styled } from "@mui/material/styles";
 import FusePageSimple from "@fuse/core/FusePageSimple";
+import CategoriesTable from "./CategoriesTable";
+import CategoriesHeader from "./CategoriesHeader";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
