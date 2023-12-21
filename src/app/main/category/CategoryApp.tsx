@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 /**
- * The E-Commerce app.
+ * Category App.
  */
 function CategoryApp() {
   return <Outlet />;
