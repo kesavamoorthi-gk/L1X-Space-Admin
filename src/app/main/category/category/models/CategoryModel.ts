@@ -7,6 +7,7 @@ import { CategoryType } from '../../types/CategoryType';
  */
 const CategoryModel = (data: PartialDeep<CategoryType>) =>
 	_.defaults(data || {}, {
+<<<<<<< HEAD
 		id: _.uniqueId('product-'),
 		name: '',
 		handle: '',
@@ -30,6 +31,13 @@ const CategoryModel = (data: PartialDeep<CategoryType>) =>
 		active: true,
 		image: '',
 		total: ''
+=======
+		_id: _.uniqueId('product-'),
+		name: '',
+		category_image:'',
+		icon_color:'',
+		box_color:''
+>>>>>>> master
 	});
 
 export default CategoryModel;

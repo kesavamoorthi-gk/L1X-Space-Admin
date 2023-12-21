@@ -20,6 +20,10 @@ import * as React from 'react';
 import { getCategories, selectCategories, selectCategoriesSearchText } from '../store/categoriesSlice';
 import CategoriesTableHead from './CategoriesTableHead';
 import { CategoryType } from '../types/CategoryType';
+<<<<<<< HEAD
+=======
+import OrdersStatus from './CategoriesStatus';
+>>>>>>> master
 
 type CategoriesTableProps = WithRouterProps & {
 	navigate: (path: string) => void;
@@ -163,10 +167,26 @@ function CategoriesTable(props: CategoriesTableProps) {
 						{_.orderBy(
 							data,
 							[
+<<<<<<< HEAD
 								(o) => {
 									switch (o._id) {
 										case 'categories': {
 											return o.categories[0];
+=======
+								(o: CategoryType) => {
+									switch (o._id) {
+										case '_id': {
+											return parseInt(o._id, 10);
+										}
+										case 'name': {
+											return o.name;
+										}
+										case 'category_image': {
+											return o.category_image;
+										}
+										case 'status': {
+											return o.status;
+>>>>>>> master
 										}
 										default: {
 											return o._id;
@@ -176,6 +196,7 @@ function CategoriesTable(props: CategoriesTableProps) {
 							],
 							[tableOrder.direction] as Many<boolean | 'asc' | 'desc'>
 						)
+<<<<<<< HEAD
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((n) => {
 								const isSelected = selected.indexOf(n.id) !== -1;
@@ -270,6 +291,76 @@ function CategoriesTable(props: CategoriesTableProps) {
 								);
 							})}
 					</TableBody>
+=======
+						.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+						.map((n ,i) => {
+							console.log(n,'single')
+							const isSelected = selected.indexOf(n._id) !== -1;
+							return (
+								<TableRow
+									className="h-72 cursor-pointer"
+									hover
+									role="checkbox"
+									aria-checked={isSelected}
+									tabIndex={-1}
+									key={n._id}
+									selected={isSelected}
+									onClick={() => handleClick(n)}
+								>
+									<TableCell
+										className="w-40 md:w-64 text-center"
+										padding="none"
+									>
+										<Checkbox
+											checked={isSelected}
+											onClick={(event) => event.stopPropagation()}
+											onChange={(event) => handleCheck(event, n._id)}
+										/>
+									</TableCell>
+
+									<TableCell
+										className="p-4 md:p-16"
+										component="th"
+										scope="row"
+									>
+										{i+1}
+									</TableCell>
+
+									<TableCell
+										className="p-4 md:p-16"
+										component="th"
+										scope="row"
+									>
+										{n.name}
+									</TableCell>
+
+									<TableCell
+										className="p-4 md:p-16 truncate"
+										component="th"
+										scope="row"
+									>
+									   <img src={n.category_image} alt="Category" />
+									</TableCell>
+									<TableCell
+										className="p-4 md:p-16"
+										component="th"
+										scope="row"
+									>
+										<OrdersStatus id={n.status} />
+									</TableCell>
+
+									<TableCell
+										className="p-4 md:p-16"
+										component="th"
+										scope="row"
+									>
+										{new Date(n.created_at).toLocaleString()}
+									</TableCell>
+								</TableRow>
+							);
+						})}
+				</TableBody>
+>>>>>>> master
 				</Table>
 			</FuseScrollbars>
 			<TablePagination

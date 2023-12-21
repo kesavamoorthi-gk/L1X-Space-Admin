@@ -29,11 +29,19 @@ export const removeCategory = createAppAsyncThunk<string>(
 	async (_, { getState }) => {
 		const AppState = getState() as AppRootStateType;
 
+<<<<<<< HEAD
 		const { id } = AppState.categoriesApp.category.data as CategoryType;
 
 		await axios.delete(`/api/ecommerce/categories/${id}`);
 
 		return id;
+=======
+		const { _id } = AppState.categoriesApp.category.data as CategoryType;
+
+		await axios.delete(`/api/ecommerce/categories/${_id}`);
+
+		return _id;
+>>>>>>> master
 	}
 );
 
@@ -45,9 +53,15 @@ export const saveCategory = createAppAsyncThunk<CategoryType, CategoryType>(
 	async (productData, { getState }) => {
 		const AppState = getState() as AppRootStateType;
 
+<<<<<<< HEAD
 		const { id } = AppState.categoriesApp.category.data as CategoryType;
 
 		const response = await axios.put(`/api/ecommerce/categories/${id}`, productData);
+=======
+		const { _id } = AppState.categoriesApp.category.data as CategoryType;
+
+		const response = await axios.put(`/api/ecommerce/categories/${_id}`, productData);
+>>>>>>> master
 
 		const data = (await response.data) as CategoryType;
 

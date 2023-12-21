@@ -50,18 +50,29 @@ const rows: rowType[] = [
     id: "categories",
     align: "left",
     disablePadding: false,
+<<<<<<< HEAD
     label: "Category",
+=======
+    label: "Image",
+>>>>>>> master
     sort: true,
   },
   {
     id: "priceTaxIncl",
+<<<<<<< HEAD
     align: "right",
     disablePadding: false,
     label: "Price",
+=======
+    align: "left",
+    disablePadding: false,
+    label: "Status",
+>>>>>>> master
     sort: true,
   },
   {
     id: "quantity",
+<<<<<<< HEAD
     align: "right",
     disablePadding: false,
     label: "Quantity",
@@ -74,6 +85,20 @@ const rows: rowType[] = [
     label: "Active",
     sort: true,
   },
+=======
+    align: "left",
+    disablePadding: false,
+    label: "Date",
+    sort: true,
+  },
+  // {
+  //   id: "active",
+  //   align: "right",
+  //   disablePadding: false,
+  //   label: "Active",
+  //   sort: true,
+  // },
+>>>>>>> master
 ];
 
 type CategoriesTableHeadPropsType = {
