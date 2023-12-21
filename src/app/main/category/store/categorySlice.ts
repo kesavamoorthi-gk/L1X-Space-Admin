@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import createAppAsyncThunk from 'app/store/createAppAsyncThunk';
@@ -8,7 +9,7 @@ import CategoryModel from '../category/models/CategoryModel';
 export type AppRootStateType = RootStateType<categorySliceType>;
 
 /**
- * Get product from server by id
+ * Get product from server by _id
  */
 export const getCategory = createAppAsyncThunk<CategoryType, string>(
 	'categoriesApp/category/getCategory',
@@ -29,11 +30,11 @@ export const removeCategory = createAppAsyncThunk<string>(
 	async (_, { getState }) => {
 		const AppState = getState() as AppRootStateType;
 
-		const { id } = AppState.categoriesApp.category.data as CategoryType;
+		const { _id } = AppState.categoriesApp.category.data as CategoryType;
 
-		await axios.delete(`/api/ecommerce/categories/${id}`);
+		await axios.delete(`/api/ecommerce/categories/${_id}`);
 
-		return id;
+		return _id;
 	}
 );
 
@@ -45,10 +46,9 @@ export const saveCategory = createAppAsyncThunk<CategoryType, CategoryType>(
 	async (productData, { getState }) => {
 		const AppState = getState() as AppRootStateType;
 
-		const { id } = AppState.categoriesApp.category.data as CategoryType;
+		const { _id } = AppState.categoriesApp.category.data as CategoryType;
 
-		const response = await axios.put(`/api/ecommerce/categories/${id}`, productData);
-
+		const response = await axios.post(`https://l1profileapi.seaswap.co/api/v1/admin/create-category`, productData);
 		const data = (await response.data) as CategoryType;
 
 		return data;

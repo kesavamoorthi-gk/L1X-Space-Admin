@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import axios from 'axios';
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import createAppAsyncThunk from 'app/store/createAppAsyncThunk';
@@ -5,15 +6,13 @@ import { RootStateType } from 'app/store/types';
 import { CategoryType, CategoriesType } from '../types/CategoryType';
 
 export type AppRootStateType = RootStateType<categoriesSliceType>;
-// eCommerceApp / categories / getCategories
 
 /**
  * Get categories from server
  */
 export const getCategories = createAppAsyncThunk<CategoriesType>('categoriesApp/categories/getCategories', async () => {
 	const response = await axios.get('https://l1profileapi.seaswap.co/api/v1/admin/list-category');
-	console.log(response);
-	const data = (await response.data.data) as CategoriesType;
+	const data = (await response.data?.data) as CategoriesType;
 
 	return data;
 });
@@ -24,26 +23,26 @@ export const getCategories = createAppAsyncThunk<CategoriesType>('categoriesApp/
 export const removeCategories = createAppAsyncThunk<string[], string[]>(
 	'categoriesApp/categories',
 	async (categoryIds) => {
-		await axios.delete('/api/ecommerce/categories', { data: categoryIds });
+		// await axios.delete('/api/ecommerce/categories', { data: categoryIds });
 
 		return categoryIds;
 	}
 );
 
-const productsAdapter = createEntityAdapter<CategoryType>({
+const categoriesAdapter = createEntityAdapter<CategoryType>({
 	selectId: (category) => category._id
 });
 
-export const { selectAll: selectCategories, selectById: selectCategoryById } = productsAdapter.getSelectors(
+export const { selectAll: selectCategories, selectById: selectCategoryById } = categoriesAdapter.getSelectors(
 	(state: AppRootStateType) => state?.categoriesApp?.categories
 );
 
-const initialState = productsAdapter.getInitialState({
+const initialState = categoriesAdapter.getInitialState({
 	searchText: ''
 });
 
 /**
- * The E-Commerce categories slice.
+ * Categories slice.
  */
 export const categoriesSlice = createSlice({
 	name: 'categoriesApp/categories',
@@ -56,11 +55,11 @@ export const categoriesSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(getCategories.fulfilled, (state, action) => {
-				productsAdapter.setAll(state, action.payload);
+				categoriesAdapter.setAll(state, action.payload);
 				state.searchText = '';
 			})
 			.addCase(removeCategories.fulfilled, (state, action) => {
-				productsAdapter.removeMany(state, action.payload);
+				categoriesAdapter.removeMany(state, action.payload);
 			});
 
 		// You can add more cases here similar to the provided example, e.g. removeCategories

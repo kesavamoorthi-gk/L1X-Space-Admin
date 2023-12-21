@@ -14,6 +14,7 @@ import { CategoryType } from '../types/CategoryType';
  * The category header.
  */
 function CategoryHeader() {
+	debugger;
 	const dispatch = useAppDispatch();
 	const methods = useFormContext();
 	const { formState, watch, getValues } = methods;

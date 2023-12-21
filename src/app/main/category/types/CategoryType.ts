@@ -4,7 +4,8 @@ import { CategoryImageType } from './CategoryImageType';
  * Category Type
  */
 export type CategoryType = {
-	_id: string;
+	_id?: string;
+	id?: string;
 	name: string;
 	category_image?: string;
 	icon_color?: string;

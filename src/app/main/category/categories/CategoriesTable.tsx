@@ -7,13 +7,11 @@ import TableCell from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
 import { motion } from 'framer-motion';
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/store';
 import withRouter from '@fuse/core/withRouter';
 import FuseLoading from '@fuse/core/FuseLoading';
-import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { Many } from 'lodash';
 import { WithRouterProps } from '@fuse/core/withRouter/withRouter';
 import * as React from 'react';
@@ -75,7 +73,6 @@ function CategoriesTable(props: CategoriesTableProps) {
 	}
 
 	function handleSelectAllClick(event: ChangeEvent<HTMLInputElement>) {
-		console.log(data);
 		if (event.target.checked) {
 			setSelected(data.map((n) => n._id));
 			return;
@@ -166,7 +163,8 @@ function CategoriesTable(props: CategoriesTableProps) {
 								(o) => {
 									switch (o._id) {
 										case 'categories': {
-											return o.categories[0];
+											return;
+											// return o.categories[0];
 										}
 										default: {
 											return o._id;
@@ -178,7 +176,7 @@ function CategoriesTable(props: CategoriesTableProps) {
 						)
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((n) => {
-								const isSelected = selected.indexOf(n.id) !== -1;
+								const isSelected = selected.indexOf(n._id) !== -1;
 								return (
 									<TableRow
 										className="h-72 cursor-pointer"
@@ -197,7 +195,7 @@ function CategoriesTable(props: CategoriesTableProps) {
 											<Checkbox
 												checked={isSelected}
 												onClick={(event) => event.stopPropagation()}
-												onChange={(event) => handleCheck(event, n.id)}
+												onChange={(event) => handleCheck(event, n._id)}
 											/>
 										</TableCell>
 
@@ -214,7 +212,7 @@ function CategoriesTable(props: CategoriesTableProps) {
 											component="th"
 											scope="row"
 										>
-											{n?.categories?.join(', ')}
+											{n?.status ? 'Active' : 'Inactive'}
 										</TableCell>
 
 										<TableCell
@@ -223,48 +221,7 @@ function CategoriesTable(props: CategoriesTableProps) {
 											scope="row"
 											align="right"
 										>
-											<span>$</span>
-											{n.priceTaxIncl}
-										</TableCell>
-
-										<TableCell
-											className="p-4 md:p-16"
-											component="th"
-											scope="row"
-											align="right"
-										>
-											{n.quantity}
-											<i
-												className={clsx(
-													'inline-block w-8 h-8 rounded mx-8',
-													n.quantity <= 5 && 'bg-red',
-													n.quantity > 5 && n.quantity <= 25 && 'bg-orange',
-													n.quantity > 25 && 'bg-green'
-												)}
-											/>
-										</TableCell>
-
-										<TableCell
-											className="p-4 md:p-16"
-											component="th"
-											scope="row"
-											align="right"
-										>
-											{n.active ? (
-												<FuseSvgIcon
-													className="text-green"
-													size={20}
-												>
-													heroicons-outline:check-circle
-												</FuseSvgIcon>
-											) : (
-												<FuseSvgIcon
-													className="text-red"
-													size={20}
-												>
-													heroicons-outline:minus-circle
-												</FuseSvgIcon>
-											)}
+											{new Date(n.created_at).toLocaleDateString()}
 										</TableCell>
 									</TableRow>
 								);

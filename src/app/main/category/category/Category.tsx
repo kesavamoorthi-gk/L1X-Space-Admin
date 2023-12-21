@@ -142,7 +142,7 @@ function Category() {
 	/**
 	 * Wait while category data is loading and form is setted
 	 */
-	if (_.isEmpty(form) || (category && routeParams.categoryId !== category.id && routeParams.categoryId !== 'new')) {
+	if (_.isEmpty(form) || (category && routeParams.categoryId !== category._id && routeParams.categoryId !== 'new')) {
 		return <FuseLoading />;
 	}
 
